@@ -1,0 +1,32 @@
+.herosection{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 65px 4% 0 4%;
+}
+.herocontainer{
+    width: 100vw;
+    height: 31vh;
+    border-radius: 20px;
+    position: relative;
+    background-position: center;
+    background-size: cover;
+}
+.herodescription{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+@media(max-width:768px){
+    .herodescription{
+        display: none;
+    }
+}
+
+
+.mobileinfo{
+    position: absolute;
+    bottom: 50%;
+}

@@ -1,0 +1,140 @@
+.detailsbanner{
+    position: relative;
+    height: 300px;
+}
+.detailstrailer{
+    position: absolute;
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 10px 15px;
+    bottom: 4%;
+    right: 3%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+}
+
+.detailsinfo{
+    position: absolute;
+    bottom: -50%;
+    left: 8%;
+    display: flex;
+    align-items:center;
+}
+.detailsimage{
+    border-radius: 10px;
+}
+
+.detailstitle{
+    /* padding: 10px; */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 110px 20px 0 20px ;
+}
+
+.title{
+    white-space: nowrap;
+    font-size: 1.7rem;
+}
+
+.alttitle{
+    margin: 0 0 3px 0;
+    color: #ffffffb2;
+}
+
+.scores{
+    font-size: 0.9rem;
+    color: #ffffffb2;
+    display: flex;
+    align-items: center;
+}
+
+.detailswatch{
+    background-color: white;
+    border: none;
+    margin: 8px 0 0 0;
+    align-items: center;
+    display: flex;
+    width: max-content;
+    color: black;
+    padding: 8px 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+}
+
+.activestatus{
+    color: #22c55e;
+    margin-left: 4px;
+}
+.notactive{
+    margin-left: 4px;
+}
+
+@media(max-width:900px){
+    .detailsinfo{
+        left: 3%;
+    }
+    .detailsimage{
+        width: 180px;
+        height: 260px;
+    }
+    .title{
+        font-size: 1.3rem;
+    }
+}
+
+
+@media(max-width:640px){
+    .detailsimage{
+        width: 170px;
+        height: 240px;
+    }
+    .detailsbanner{
+        height: 220px;
+    }
+    .detailstrailer{
+        font-weight: 500;
+        font-size: 15px;
+        padding: 6px 15px;
+        right: 50%;
+        transform: translateX(50%);
+        bottom: -70%;
+        display: none;
+    }
+    .detailswatch{
+        font-weight: 500;
+        font-size: 15px;
+        padding: 7px 15px;
+    }
+    .detailsinfo {
+        bottom: -85%;
+        left: 50%;
+        display: flex;
+        flex-direction: column;
+        transform: translateX(-50%);
+        justify-content: center;
+        align-items: center;
+      }
+      .detailstitle {
+        position: relative;
+        z-index: 99999;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        bottom: 100%;
+        margin: 10px 0 0px 0;
+      }
+    
+      .title {
+        font-size: 1.2rem;
+      }
+      .alttitle{
+        margin: 0;
+        font-size: 0.9rem;
+        display: none;
+    }
+}
