@@ -3,19 +3,22 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Combobox, Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 import { ContextSearch } from "@/context/DataContext";
+import Link from 'next/link'
+import UseDebounce from "@/utils/UseDebounce";
 
 function Search() {
     const { Isopen, setIsopen } = ContextSearch();
     const [query, setQuery] = useState("");
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
+    const debouncedSearch = UseDebounce(query, 500)
 
     let focusInput = useRef(null);
 
     async function searchdata() {
         setLoading(true);
         const res = await axios.get(
-            `https://consumet-anime-api.vercel.app/meta/anilist/advanced-search`, { params: { query: query, sort: ["POPULARITY_DESC", "SCORE_DESC", "FAVOURITES", "TRENDING"] } }
+            `https://api.anify.tv/search/anime/${query} `
         );
         setData(res.data)
         console.log(res.data);
@@ -23,8 +26,10 @@ function Search() {
     }
 
     useEffect(() => {
-        searchdata();
-    }, [query]);
+        if(debouncedSearch){
+            searchdata();
+        }
+    }, [debouncedSearch]);
 
     function closeModal() {
         setIsopen(false);
@@ -114,7 +119,7 @@ function Search() {
                                                             }>
                                                             <div className="shrink-0">
                                                                 <img
-                                                                    src={item.image}
+                                                                    src={item.image || item.coverImage}
                                                                     alt="image"
                                                                     width={52}
                                                                     height={70}
@@ -122,16 +127,18 @@ function Search() {
                                                                 />
                                                             </div>
                                                             <div className="flex flex-col overflow-hidden">
-                                                                <p className="line-clamp-2 text-base">
+                                                            <Link href={`/anime/info/${item.id}`}>
+                                                              <p className="line-clamp-2 text-base">
                                                                     {item.title.english || item.title.romaji}
                                                                 </p>
+                                                              </Link>
                                                                 <span className="my-1 text-xs text-gray-400">Episodes - {item.totalEpisodes || "Na"}</span>
                                                                 <div className="flex items-center text-gray-400 text-xs">
-                                                                    <span><span class="fa fa-star"></span> {item.rating / 10}</span>
+                                                                    <span><span className="fa fa-star"></span> {item.rating / 10 || item.averageRating}</span>
                                                                     <span className='mx-1 mb-[5px]'>.</span>
                                                                     <span>{item.type || "Na"}</span>
                                                                     <span className='mx-1 mb-[5px]'>.</span>
-                                                                    <span> {item.releaseDate || "Na"}</span>
+                                                                    <span> {item.releaseDate || item.year || "Na"}</span>
                                                                     <span className='mx-1 mb-[5px]'>.</span>
                                                                     <span>{item.status}</span>
                                                                 </div>

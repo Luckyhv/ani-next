@@ -57,12 +57,12 @@ function Animecard({ data,cardid }) {
             <div className={`${styles.cardimgcontainer}`}>
               <Link href={`/anime/info/${item.id}`}>
                 <Image
-                  src={item.coverImage?.extraLarge}
+                  src={item.coverImage?.extraLarge || item.image}
                   alt={item.title.english || item.title.romaji}
                   width={155}
                   height={230}
                   placeholder="blur"
-                  blurDataURL={item.coverImage?.extraLarge}
+                  blurDataURL={item.coverImage?.extraLarge || item.image}
                   className={`${styles.cardimage}`}
                   onLoad={() => setImageLoaded(true)}
                 />

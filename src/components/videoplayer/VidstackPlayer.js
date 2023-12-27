@@ -135,7 +135,7 @@ function VidstackPlayer({ sources, skiptimes, epid, thumbnails, subtitles, getNe
 
 
     return (
-        <MediaPlayer key={src} ref={playerRef} playsinline aspectRatio={16 / 9} load="eager" autoFocus={true} autoplay={autoplay} title={currentep?.title || `EP ${currentep?.number}`}
+        <MediaPlayer ref={playerRef} playsinline aspectRatio={16 / 9} load="eager" autoFocus={true} autoplay={autoplay} title={currentep?.title || `EP ${currentep?.number}`}
             data-hocus="true"
             className={`w-full h-full overflow-hidden rounded-lg cursor-pointer ${styles.mediaplayer}`}
             crossorigin={"anonymous"}

@@ -1,13 +1,15 @@
 import Animecard from '@/components/Animecard'
 import Herosection from '@/components/home/Herosection'
 import Navbarcomponent from '@/components/Navbar'
-import { TrendingAnilist } from '@/lib/Anilistfunctions'
+import { TrendingAnilist, RecentEpisodes } from '@/lib/Anilistfunctions'
 import React from 'react'
 import { MotionDiv } from '@/utils/MotionDiv'
-import RecentEpisodesCard from '@/components/home/RecentEpisodesCard'
+
 
 async function Home() {
   const herodata = await TrendingAnilist();
+  const recentdata = await RecentEpisodes();
+
   return (
     <div>
       <Navbarcomponent />
@@ -18,7 +20,7 @@ async function Home() {
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <RecentEpisodesCard cardid="Recent Episodes" />
+        <Animecard data={recentdata.results} cardid="Recent Episodes" />
       </MotionDiv>
       <MotionDiv
         initial={{ y: 20, opacity: 0 }}

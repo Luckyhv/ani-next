@@ -25,9 +25,9 @@ function RecommendationCard({ data, title }) {
               <Link href={`/anime/info/${item.id}`}>
                 <span className={styles.cardtitle}>{item.mediaRecommendation.title.english || item.mediaRecommendation.title.romaji}</span>
                 </Link>
-              <div className={styles.cardinfo}>
+              {/* <div className={styles.cardinfo}>
 
-              </div>
+              </div> */}
             </div>
           )
         })}

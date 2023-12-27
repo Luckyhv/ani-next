@@ -25,7 +25,7 @@ export default function Navbarcomponent() {
     
     
     return (
-        <div className={"w-full h-[64px] mx-auto fixed top-0 left-0 right-0 bg-black/50 backdrop-blur-[8px] z-9999 transition duration-300  "}>
+        <div className={"w-full h-[64px] mx-auto fixed top-0 left-0 right-0 bg-black/50 backdrop-blur-[8px] z-[99999] transition duration-300  "}>
             <div className='flex items-center justify-between px-[4%] w-full h-[64px]  mx-auto'>
             <div className="flex ">
                 <Link className="text-xl font-semibold" href="/">

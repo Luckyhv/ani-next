@@ -6,10 +6,10 @@ import { useDraggable } from 'react-use-draggable-scroll';
 import Link from 'next/link';
 import { RecentEpisodes } from '@/lib/Anilistfunctions';
 
-function RecentEpisodesCard({ cardid }) {
+function RecentEpisodesCard({ data,cardid }) {
   const containerRef = useRef();
   const { events } = useDraggable(containerRef);
-  const [data,setdata] = useState(null);
+  // const [data,setdata] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isLeftArrowActive, setIsLeftArrowActive] = useState(false);
   const [isRightArrowActive, setIsRightArrowActive] = useState(false);
@@ -20,7 +20,7 @@ function RecentEpisodesCard({ cardid }) {
         setdata(res.results);
         console.log(res.results)
     }
-    fetchdata();
+    // fetchdata();
   },[])
 
   function handleScroll() {
@@ -63,7 +63,7 @@ function RecentEpisodesCard({ cardid }) {
         <svg onClick={scrollRight} xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="mb-4"><path d="m9 18 6-6-6-6"></path></svg>
         </span>
       <div className={styles.cardcontainer} id={cardid} {...events} ref={containerRef} onScroll={handleScroll}>
-        {data?.map((item) => (
+        {data && data?.map((item) => (
           <div key={item.id} className={styles.carditem}>
             <div className={`${styles.cardimgcontainer}`}>
               <Link href={`/anime/info/${item.id}`}>

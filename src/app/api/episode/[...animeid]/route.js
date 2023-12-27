@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { redis } from '@/lib/rediscache';
 import { NextResponse } from "next/server"
+import { CombineEpisodeMeta } from '@/utils/EpisodeFunctions';
 
 async function fetchConsumetEpisodes(id) {
   try {
@@ -40,13 +41,14 @@ async function fetchConsumetEpisodes(id) {
 
 async function fetchAnifyEpisodes(id) {
   try {
-    const { data } = await axios.get(`https://api.anify.tv/episodes/${id}`);
+    const { data } = await axios.get(`https://api.anify.tv/info/${id}?fields=[episodes]`);
 
+    const epdata = data.episodes.data
     if (!data) {
       return [];
     }
 
-    const filtereddata = data.filter((episodes) => episodes.providerId !== "9anime");
+    const filtereddata = epdata.filter((episodes) => episodes.providerId !== "9anime");
     return filtereddata;
   } catch (error) {
     console.error("Error fetching and processing data:", error.message);
@@ -98,38 +100,34 @@ export const GET = async (req, { params }) => {
     cached = await redis.get(`episode:${id}`);
     console.log("using redis");
   }
-  // meta = await redis.get(`meta:${id}`);
+  meta = await redis.get(`meta:${id}`);
 
   if (cached) {
     // If data is found in the cache, return it
     const cachedData = JSON.parse(cached);
-    // if (meta) {
-    //   metaData = await CombineEpisodeMeta(cachedData, JSON.parse(meta));
-    // }
+    if (meta) {
+      metaData = await CombineEpisodeMeta(cachedData, JSON.parse(meta));
+    }
     return NextResponse.json(cachedData);
   } else {
 
-    const [consumet, anify] = await Promise.all([
+    const [consumet, anify,cover] = await Promise.all([
       fetchConsumetEpisodes(id),
       fetchAnifyEpisodes(id),
-      // fetchEpisodeImages(id, meta),
+      fetchEpisodeImages(id, meta),
     ]);
-
-    // if (data && data.length > 0) {
-      // }
-      // return NextResponse.json(data);
       
       const combinedData = [...consumet, ...anify];
-      await redis.setex(`episode:${id}`, cacheTime, JSON.stringify(combinedData));
-    // let data;
-
-    // if (meta) {
-    //   data = await CombineEpisodeMeta(combinedData, JSON.parse(meta));
-    // } else if (cover && !cover.some((e) => e.img === null)) {
-    //   if (redis) await redis.set(`meta:${id}`, JSON.stringify(cover));
-    //   data = await CombineEpisodeMeta(combinedData, cover);
-    // }
-
+      await redis.setex(`episode:${id}`, cacheTime, JSON.stringify([...consumet, ...anify]));
+      let data = combinedData;
+      
+      if (meta) {
+        data = await CombineEpisodeMeta(combinedData, JSON.parse(meta));
+      } else if (cover && !cover.some((e) => e.img === null)) {
+        if (redis) await redis.set(`meta:${id}`, JSON.stringify(cover));
+        data = await CombineEpisodeMeta(combinedData, cover);
+      }
+      
     // Cache the fetched data in Redis
 
     return NextResponse.json(combinedData);

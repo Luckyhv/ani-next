@@ -22,7 +22,7 @@
     display: flex;
     align-items: center;
     height: 97%;
-    z-index: 9999;
+    z-index: 200;
     background: linear-gradient(to right,#000000,rgba(0, 0, 0, 0.02));
     transition: all 0.4s ease-in-out!important;
     cursor: pointer;
@@ -178,10 +178,10 @@
         /* border: 1px solid white; */
     }
     .animecard{
-        margin: 10px auto;
+        margin: 5px auto;
     }
     .headtitle{
-        margin: 10px 0;
+        margin: 8px 0;
     }
 }
 
