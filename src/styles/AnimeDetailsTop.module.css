@@ -1,6 +1,6 @@
 .detailsbanner{
     position: relative;
-    height: 340px;
+    height: 350px;
     bottom: 0;
 }
 
@@ -36,7 +36,7 @@
 
 .detailsinfo{
     position: absolute;
-    bottom: -40%;
+    bottom: -35%;
     left: 8%;
     display: flex;
 }
@@ -157,7 +157,7 @@
         height: 240px;
     }
     .detailsbanner{
-        height: 250px;
+        /* height: 250px; */
     }
     .gradientOverlay{
         background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1));
@@ -182,7 +182,7 @@
         padding: 8px 16px;
     }
     .detailsinfo {
-        bottom: -70%;
+        bottom: -30%;
         left: 50%;
         display: flex;
         flex-direction: column;

@@ -16,13 +16,13 @@ function RecommendationCard({ data, title }) {
       <div className={styles.cardcontainer} {...events} ref={containerRef}>
         {data.map((item) => {
           return (
-            <div key={item.mediaRecommendation.id} className={styles.carditem}>
+            <div key={item?.mediaRecommendation?.id} className={styles.carditem}>
               <div className={styles.cardimgcontainer}>
-                <Link href={`/anime/info/${item.mediaRecommendation.id}`}>
-                <Image src={item.mediaRecommendation.coverImage.extraLarge} width={250} height={400} className={`${styles.cardimage}`} />
+                <Link href={`/anime/info/${item?.mediaRecommendation?.id}`}>
+                <Image src={item?.mediaRecommendation?.coverImage?.extraLarge} width={250} height={400} className={`${styles.cardimage}`} />
                 </Link>
               </div>
-              <Link href={`/anime/info/${item.id}`}>
+              <Link href={`/anime/info/${item?.mediaRecommendation.id}`}>
                 <span className={styles.cardtitle}>{item.mediaRecommendation.title.english || item.mediaRecommendation.title.romaji}</span>
                 </Link>
               {/* <div className={styles.cardinfo}>
