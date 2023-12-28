@@ -26,7 +26,7 @@ function Search() {
     }
 
     useEffect(() => {
-        if(debouncedSearch){
+        if (debouncedSearch) {
             searchdata();
         }
     }, [debouncedSearch]);
@@ -127,11 +127,11 @@ function Search() {
                                                                 />
                                                             </div>
                                                             <div className="flex flex-col overflow-hidden">
-                                                            <Link href={`/anime/info/${item.id}`}>
-                                                              <p className="line-clamp-2 text-base">
-                                                                    {item.title.english || item.title.romaji}
-                                                                </p>
-                                                              </Link>
+                                                                <Link href={`/anime/info/${item.id}`} onClick={()=>{setIsopen(false)}}>
+                                                                    <p className="line-clamp-2 text-base">
+                                                                        {item.title.english || item.title.romaji}
+                                                                    </p>
+                                                                </Link>
                                                                 <span className="my-1 text-xs text-gray-400">Episodes - {item.totalEpisodes || "Na"}</span>
                                                                 <div className="flex items-center text-gray-400 text-xs">
                                                                     <span><span className="fa fa-star"></span> {item.rating / 10 || item.averageRating}</span>

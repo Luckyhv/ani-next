@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { ContextSearch } from '@/context/DataContext';
 
 function AnimeDetailsTop({ data }) {
-  const {dfprovider, dfepisodes, dftype} = ContextSearch();
+  const { dfprovider, dfepisodes, dftype } = ContextSearch();
   const [subtype, setSubtype] = useState('sub');
 
   useEffect(() => {
@@ -16,11 +16,16 @@ function AnimeDetailsTop({ data }) {
       setSubtype(storedType);
     }
   }, []);
-  
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <div className={styles.detailsbanner} style={{ backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9)), url(${data?.bannerImage || data?.coverImage.large || null})`, backgroundPosition: "center", backgroundSize: "cover" }}>
+    <div className={styles.detailsbanner}>
+      <div
+        className={styles.detailsbgimage}
+        style={{ backgroundImage: `url(${data?.bannerImage || data?.coverImage.large || null})`, backgroundPosition: "center", backgroundSize: "cover", height: "100%" }}
+      ></div>
+      <div className={styles.gradientOverlay}></div>
       <>
         <Button className={styles.detailstrailer} onPress={onOpen}>Watch Trailer</Button>
         <Modal backdrop='blur' isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} size={"2xl"} className='z-[99999999]'>
@@ -49,10 +54,10 @@ function AnimeDetailsTop({ data }) {
           <Image src={data.coverImage.large} alt='Image' width={200} height={200} className={styles.detailsimage} />
         </div>
         <div className={styles.detailstitle}>
-          <h1 className={styles.title}>
+          <h1 className={`${styles.title} text-[1.7rem] font-[500]`}>
             {data.title.english}
           </h1>
-          <h4 className={styles.alttitle}>
+          <h4 className={`${styles.alttitle}`}>
             {data.title.romaji}
           </h4>
           <p className={styles.scores}>
@@ -61,16 +66,21 @@ function AnimeDetailsTop({ data }) {
             </svg>
             {data.averageScore / 10} | <span className={`${data.status === 'RELEASING' ? styles.activestatus : styles.notactive}`}> {data.status}</span>
           </p>
-          {dfepisodes && dfprovider && dfepisodes.length > 0 ?
+         <div className='flex'>
+         {dfepisodes && dfprovider && dfepisodes.length > 0 ?
             <Link href={`/anime/watch/${data.id}/${dfprovider}/${dfepisodes[0]?.number}?epid=${encodeURIComponent(dfepisodes[0]?.id)}&type=${dftype || subtype}`}>
               <button className={styles.detailswatch}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="w-5 h-5"><path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd"></path></svg>
                 Watch Now
               </button>
             </Link> :
-            <button className={`${styles.detailswatch} opacity-40 bg-black`} disabled>
+            <button className={`${styles.detailswatch} opacity-40 bg-black`} disabled><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="w-5 h-5"><path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd"></path></svg>
               Watch Now
             </button>
-            }
+          }
+              <button className={styles.detailsaddlist}>
+                Add to list
+              </button>
+         </div>
         </div>
       </div>
     </div>

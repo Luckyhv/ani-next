@@ -11,9 +11,11 @@
 .detailscard{
     display: flex;
     flex-direction: row;
+    min-height: 400px;
 }
 .card1{
     max-width: 300px;
+    min-height: 400px;
 }
 .singlecontent{
     display: flex;

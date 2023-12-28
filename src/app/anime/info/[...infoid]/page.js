@@ -30,7 +30,7 @@ async function AnimeDetails({params}) {
   return (
     <div className="">
       <AnimeNavbar/>
-      <div className='h-[430px] sm:h-[480px] '>
+      <div className='h-[430px] sm:h-[500px] '>
       <AnimeDetailsTop data={data}/>
       </div>
       <AnimeDetailsBottom data={data}/>

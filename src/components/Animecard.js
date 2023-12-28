@@ -23,13 +23,18 @@ function Animecard({ data,cardid }) {
 
   const smoothScroll = (amount) => {
     const container = containerRef.current;
-    const cont = document.getElementById(cardid)
-    cont.classList.add('scroll-smooth');
-    container.scrollLeft += amount;
-    setTimeout(() => {
-      cont.classList.remove('scroll-smooth');
-    }, 300);
+    const cont = document.getElementById(cardid);
+  
+    if (cont) {
+      cont.classList.add('scroll-smooth');
+      container.scrollLeft += amount;
+  
+      setTimeout(() => {
+        cont.classList.remove('scroll-smooth');
+      }, 300);
+    }
   };
+  
 
   function scrollLeft(){
     smoothScroll(-500);
