@@ -5,10 +5,10 @@ export const RecentEpisodes = async () => {
     try {
       const res = await fetch(`https://consumet-anime-api.vercel.app/meta/anilist/recent-episodes`, {
         params: {
-          page: 1,
+        //   page: 1,
           perPage: 15,
         },
-      });
+      },{ next: { revalidate: 3600 }});
       return res.json();
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -30,7 +30,7 @@ export const TrendingAnilist=async()=>{
                     perPage: 15,
                 },
             }),
-        });
+        },{ next: { revalidate: 3600 }});
 
         const data = await response.json();
         return data.data.Page.media;
@@ -53,7 +53,7 @@ export const AnimeInfoAnilist=async(animeid)=>{
                     id: animeid,
                 },
             }),
-        },{ cache: 'no-store' });
+        },{ next: { revalidate: 3600 }});
 
         const data = await response.json();
         return data.data.Media;

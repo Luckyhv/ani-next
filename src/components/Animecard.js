@@ -39,6 +39,11 @@ function Animecard({ data,cardid }) {
     smoothScroll(+500);
   }
 
+  function containsEngChar(text) {
+    const englishRegex = /[a-zA-Z!@#$%^&*()_+{}\[\]:;<>,.?~\\/-] /;
+    return englishRegex.test(text);
+  }
+
   return (
     <div className={styles.animecard}>
       <div className={styles.cardhead}>
@@ -69,7 +74,7 @@ function Animecard({ data,cardid }) {
               </Link>
             </div>
             <Link href={`/anime/info/${item.id}`}>
-              <span className={styles.cardtitle}>{item.title.english || item.title.romaji}</span>
+              <span className={styles.cardtitle}>{containsEngChar(item.title.english) ? item.title.english : item.title.romaji}</span>
             </Link>
             {/* <div className={styles.cardinfo}>
               <p>{item.season}</p>

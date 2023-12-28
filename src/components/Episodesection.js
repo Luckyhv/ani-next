@@ -18,6 +18,7 @@ function Episodesection({ data }) {
       setSubtype(storedType);
     }
   }, []);
+
   const [loading, setloading] = useState(true);
   const [refreshloading, setRefreshLoading] = useState(false);
   const [reversed, setReversed] = useState(false);

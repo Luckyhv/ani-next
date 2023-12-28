@@ -64,9 +64,9 @@ function AnimeDetailsBottom({ data }) {
                                     <p dangerouslySetInnerHTML={{
                                         __html: showFullDescription
                                             ? data?.description
-                                            : `${data?.description.slice(0, 250)}...`
+                                            : `${data?.description?.slice(0, 250)}...`
                                     }} />
-                                    {data?.description.length > 250 && (
+                                    {data?.description?.length > 250 && (
                                         <button className={styles.readMoreButton} onClick={toggleDescription}>
                                             {showFullDescription ? 'Read Less' : 'Read More'}
                                         </button>

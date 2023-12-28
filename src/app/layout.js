@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className='dark text-foreground bg-background'>
       <body className={inter.className}>
         <Providers>
-        <NextTopLoader color="#CA1313"/>
+        <NextTopLoader color="#CA1313" className="z-[99999]"/>
         <Search/>
           {children}
         </Providers>
