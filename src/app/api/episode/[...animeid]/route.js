@@ -79,7 +79,6 @@ export const GET = async (req, { params }) => {
   const url = new URL(req.url);
   const id = params.animeid[0];
   const releasing = url.searchParams.get('releasing') || false;
-  const dub = url.searchParams.get('dub') || true;
   const refresh = url.searchParams.get('refresh') === 'true' || false;
 
   let cacheTime = null;
@@ -89,7 +88,6 @@ export const GET = async (req, { params }) => {
     cacheTime = 60 * 60 * 24 * 30;
   }
 
-  let metaData;
   let meta;
   let cached;
 
@@ -105,10 +103,11 @@ export const GET = async (req, { params }) => {
   if (cached) {
     // If data is found in the cache, return it
     const cachedData = JSON.parse(cached);
+    let metaData = cachedData
     if (meta) {
       metaData = await CombineEpisodeMeta(cachedData, JSON.parse(meta));
     }
-    return NextResponse.json(cachedData);
+    return NextResponse.json(metaData);
   } else {
 
     const [consumet, anify,cover] = await Promise.all([
@@ -118,7 +117,6 @@ export const GET = async (req, { params }) => {
     ]);
       
       const combinedData = [...consumet, ...anify];
-      await redis.setex(`episode:${id}`, cacheTime, JSON.stringify([...consumet, ...anify]));
       let data = combinedData;
       
       if (meta) {
@@ -127,8 +125,8 @@ export const GET = async (req, { params }) => {
         if (redis) await redis.set(`meta:${id}`, JSON.stringify(cover));
         data = await CombineEpisodeMeta(combinedData, cover);
       }
+      await redis.setex(`episode:${id}`, cacheTime, JSON.stringify([...consumet, ...anify]));
       
-    // Cache the fetched data in Redis
 
     return NextResponse.json(combinedData);
   }

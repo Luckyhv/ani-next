@@ -18,7 +18,9 @@ function Search() {
     async function searchdata() {
         setLoading(true);
         const res = await axios.get(
-            `https://api.anify.tv/search/anime/${query} `
+            // `https://api.anify.tv/search/anime/${query} `
+            `https://api-consumet-org-ruddy-three.vercel.app/meta/anilist/advanced-search`,{ params: { query:query,sort:["POPULARITY_DESC","SCORE_DESC","FAVOURITES","TRENDING"] } }
+
         );
         setData(res.data)
         console.log(res.data);
