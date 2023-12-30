@@ -34,7 +34,7 @@ async function fetchConsumetEpisodes(id) {
 
     return array;
   } catch (error) {
-    console.error("Error fetching and processing data:", error.message);
+    console.error("Error fetching and processing consumet:", error.message);
     return [];
   }
 }
@@ -51,7 +51,7 @@ async function fetchAnifyEpisodes(id) {
     const filtereddata = epdata.filter((episodes) => episodes.providerId !== "9anime");
     return filtereddata;
   } catch (error) {
-    console.error("Error fetching and processing data:", error.message);
+    console.error("Error fetching and processing anify:", error.message);
     return [];
   }
 }
@@ -65,12 +65,15 @@ async function fetchEpisodeImages(id, available = false) {
       `https://api.anify.tv/content-metadata/${id}`
     );
 
-    if (data && data[0] && data[0].data) {
-      return data[0].data;
+    if (!data) {
+      return [];
     }
-    return [];
+
+    const metadata = data?.find((i) => i.providerId === "tvdb") || data[0];
+    return metadata?.data;
+
   } catch (error) {
-    console.error("Error fetching and processing data:", error.message);
+    console.error("Error fetching and processing meta:", error.message);
     return [];
   }
 }
@@ -91,44 +94,45 @@ export const GET = async (req, { params }) => {
   let meta;
   let cached;
 
-  if (refresh) {
-    await redis.del(`episode:${id}`);
-    console.log("deleted cache");
-  } else {
-    cached = await redis.get(`episode:${id}`);
-    console.log("using redis");
+  if(redis){
+    if (refresh) {
+      await redis.del(`episode:${id}`);
+      console.log("deleted cache");
+    } else {
+      cached = await redis.get(`episode:${id}`);
+      console.log("using redis");
+    }
+    meta = await redis.get(`meta:${id}`);
   }
-  meta = await redis.get(`meta:${id}`);
 
   if (cached) {
-    // If data is found in the cache, return it
     const cachedData = JSON.parse(cached);
-    let metaData = cachedData
+    let metaData
     if (meta) {
       metaData = await CombineEpisodeMeta(cachedData, JSON.parse(meta));
     }
     return NextResponse.json(metaData);
   } else {
 
-    const [consumet, anify,cover] = await Promise.all([
+    const [consumet, anify, cover] = await Promise.all([
       fetchConsumetEpisodes(id),
       fetchAnifyEpisodes(id),
-      fetchEpisodeImages(id, meta),
+      fetchEpisodeImages(id, meta)
     ]);
       
+      await redis.setex(`episode:${id}`, cacheTime, JSON.stringify([...consumet, ...anify]));
       const combinedData = [...consumet, ...anify];
-      let data = combinedData;
+      let data;
       
       if (meta) {
         data = await CombineEpisodeMeta(combinedData, JSON.parse(meta));
-      } else if (cover && !cover.some((e) => e.img === null)) {
+      } else if (cover) {
         if (redis) await redis.set(`meta:${id}`, JSON.stringify(cover));
         data = await CombineEpisodeMeta(combinedData, cover);
       }
-      await redis.setex(`episode:${id}`, cacheTime, JSON.stringify([...consumet, ...anify]));
       
 
-    return NextResponse.json(combinedData);
+    return NextResponse.json(data);
   }
 };
 

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['s4.anilist.co','artworks.thetvdb.com','media.kitsu.io'], // Add the domain from which your images will be loaded
+        domains: ['s4.anilist.co','artworks.thetvdb.com','media.kitsu.io', 'image.tmdb.org'],
       },
       async headers() {
         return [

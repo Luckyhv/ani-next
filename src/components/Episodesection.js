@@ -6,6 +6,9 @@ import Link from 'next/link'
 import { getEpisodes } from "@/lib/getData";
 import { ProvidersMap } from "@/utils/EpisodeFunctions";
 import { ContextSearch } from "@/context/DataContext";
+import EpImageList from "./Episodelists/EpImageList";
+import EpNumList from "./Episodelists/EpNumList";
+import EpImgContent from "./Episodelists/EpImgContent";
 
 function Episodesection({ data }) {
   const { setdfprovider, setdfepisodes, setdftype } = ContextSearch();
@@ -31,6 +34,17 @@ function Episodesection({ data }) {
   const [defaultProvider, setdefaultProvider] = useState("");
   const [allProviders, setAllProviders] = useState(null);
   const [episodeData, setepisodeData] = useState(null);
+  const [eplisttype, setEplistType] = useState(3);
+
+  const handleOptionClick = (option) => {
+    setEplistType(option);
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('eplisttype', eplisttype.toString());
+    }
+  }, [eplisttype]);
 
   useEffect(() => {
     const fetchepisodes = async () => {
@@ -71,7 +85,6 @@ function Episodesection({ data }) {
     setdfepisodes(filteredEp);
   }, [selectedProvider, consumetProvider, subtype, dataRefreshed]);
 
-
   const totalEpisodes = currentEpisodes?.length || 0;
 
   const episodeRangeOptions = [];
@@ -97,7 +110,6 @@ function Episodesection({ data }) {
     const initialEpisodes = currentEpisodes?.slice(0, 100);
     setFilteredEpisodes(initialEpisodes);
   }, [currentEpisodes, totalEpisodes, dataRefreshed]);
-
 
   const reverseOrder = () => {
     setReversed(!reversed)
@@ -135,116 +147,115 @@ function Episodesection({ data }) {
             </button>
           </Tooltip>
         </div>
-     {!loading && <>
-        {!refreshloading &&
-          <div className={styles.epright}>
-            <div className="flex w-[80px] max-w-[80px] flex-col gap-2 mr-2">
-              <Select
-                label=""
-                aria-label="Switch"
-                placeholder={`Switch`}
-                labelPlacement="outside"
-                selectedKeys={[subtype]}
-                className="max-w-[80px] !h-[40px] !py-0"
-                onChange={handleSubDub}
-              >
-                {subdub.map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {type}
-                  </SelectItem>
-                ))}
-              </Select>
-            </div>
-            <div className="flex w-[150px] max-w-[150px] flex-col gap-2 mr-2">
-              <Select
-                label=""
-                aria-label="Switch"
-                placeholder={`Switch`}
-                labelPlacement="outside"
-                selectedKeys={[defaultProvider]}
-                className="max-w-[150px] !h-[40px] !py-0"
-                onChange={handleProviderChange}
-              >
-                {allProviders?.map((item) => (
-                  <SelectItem key={item.providerId} value={item.providerId}>
-                    {item.providerId}
-                  </SelectItem>
-                ))}
-              </Select>
-            </div>
-            <div className="flex flex-col max-w-[130px]">
-              {totalEpisodes > 100 && (
+        {!loading && <>
+          {!refreshloading &&
+            <div className={styles.epright}>
+              <div className="flex w-[80px] max-w-[80px] flex-col gap-2 mr-2">
                 <Select
                   label=""
-                  aria-label="Episode Range"
-                  placeholder={`Episodes`}
+                  aria-label="Switch"
+                  placeholder={`Switch`}
                   labelPlacement="outside"
-                  selectedKeys={[selectedRange.toString()]}
-                  className="w-[130px] !h-[40px] !py-0"
-                  onChange={handleRangeChange}
+                  selectedKeys={[subtype]}
+                  className="max-w-[80px] !h-[40px] !py-0"
+                  onChange={handleSubDub}
                 >
-                  {episodeRangeOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
+                  {subdub.map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {type}
                     </SelectItem>
                   ))}
                 </Select>
-              )}
-            </div>
-            <button className={styles.refresh} onClick={reverseOrder}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-[22px] h-[22px]">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
-              </svg>
-            </button>
-          </div>
-        }
-     </>}
-      </div>
-      <div className={styles.epbottomsection}>
-        {loading ? (
-          <p>Fetching Episodes...</p>
-        ) : (
-          <>
-            {refreshloading ? (
-              <p>Refreshing Episode Data</p>
-            ) : (
-              <>
-                {filteredEpisodes?.length === 0 ? (
-                  <p>No episodes available</p>
-                ) : (
-                  <>
-                    {reversed
-                      ? filteredEpisodes
-                        .slice()
-                        .reverse()
-                        .map((episode) => (
-                          <Link
-                          href={`/anime/watch/${data.id}/${defaultProvider}/${episode?.number}?epid=${encodeURIComponent(
-                            episode?.id
-                          )}&type=${subtype}`}
-                            key={episode.id}
-                          >
-                            <div className={styles.epdiv}>{episode.number}</div>
-                          </Link>
-                        ))
-                      : filteredEpisodes?.map((episode) => (
-                        <Link
-                          href={`/anime/watch/${data.id}/${defaultProvider}/${episode?.number}?epid=${encodeURIComponent(
-                            episode?.id
-                          )}&type=${subtype}`}
-                          key={episode.id}
-                        >
-                          <div className={styles.epdiv}>{episode.number}</div>
-                        </Link>
-                      ))}
-                  </>
+              </div>
+              <div className="flex flex-col max-w-[130px]">
+                {totalEpisodes > 100 && (
+                  <Select
+                    label=""
+                    aria-label="Episode Range"
+                    placeholder={`Episodes`}
+                    labelPlacement="outside"
+                    selectedKeys={[selectedRange.toString()]}
+                    className="w-[130px] !h-[40px] !py-0"
+                    onChange={handleRangeChange}
+                  >
+                    {episodeRangeOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </Select>
                 )}
-              </>
-            )}
-          </>
-        )}
-      </div>
+              </div>
+              <div className="flex w-[150px] max-w-[150px] flex-col gap-2 mr-2">
+                <Select
+                  label=""
+                  aria-label="Switch"
+                  placeholder={`Switch`}
+                  labelPlacement="outside"
+                  selectedKeys={[defaultProvider]}
+                  className="max-w-[150px] !h-[40px] !py-0"
+                  onChange={handleProviderChange}
+                >
+                  {allProviders?.map((item) => (
+                    <SelectItem key={item.providerId} value={item.providerId}>
+                      {item.providerId}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </div>
+              <div className={styles.epchangeopt}>
+                <span
+                  className={`mx-[6px] cursor-pointer ${eplisttype === 1 ? 'selected' : ''}`}
+                  onClick={() => handleOptionClick(1)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke={`${eplisttype === 1 ? '#ca1313' : 'currentColor'}`} className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+                  </svg>
+                </span>
+                <span
+                  className={`mx-[6px] cursor-pointer ${eplisttype === 2 ? 'selected' : ''}`}
+                  onClick={() => handleOptionClick(2)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke={`${eplisttype === 2 ? '#ca1313' : 'currentColor'}`} className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                  </svg>
 
+                </span>
+                <span
+                  className={`mx-[6px] cursor-pointer ${eplisttype === 3 ? 'selected' : ''}`}
+                  onClick={() => handleOptionClick(3)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke={`${eplisttype === 3 ? '#ca1313' : 'currentColor'}`} className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                  </svg>
+
+                </span>
+              </div>
+              <button className={styles.refresh} onClick={reverseOrder}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-[22px] h-[22px]">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+                </svg>
+              </button>
+            </div>
+          }
+        </>}
+
+      </div>
+    {eplisttype === 3 &&
+      <div className={styles.epnumlist}>
+      <EpNumList data={data} epdata={filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
+    </div>
+    }
+     {eplisttype === 2 &&
+      <div className={styles.epnumlist}>
+      <EpImgContent data={data} epdata={filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
+    </div>
+    }
+     {eplisttype === 1 &&
+      <div className={styles.epimagelist}>
+      <EpImageList data={data} epdata={filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype}/>
+      </div> 
+    }
     </div>
   );
 }

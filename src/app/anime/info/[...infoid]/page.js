@@ -29,14 +29,14 @@ async function AnimeDetails({params}) {
   
   return (
     <div className="">
-      <AnimeNavbar/>
-      <div className='h-[460px] sm:h-[500px] '>
+      {/* <AnimeNavbar/> */}
+      {/* <div className='h-[460px] sm:h-[500px] '>
       <AnimeDetailsTop data={data}/>
-      </div>
-      <AnimeDetailsBottom data={data}/>
+      </div> */}
+      {/* <AnimeDetailsBottom data={data}/> */}
       <Episodesection data={data}/>
       <div className="recommendationglobal">
-      <RecommendationCard data={data.recommendations.nodes} title={"Recommendations"}/>
+      {/* <RecommendationCard data={data.recommendations.nodes} title={"Recommendations"}/> */}
       </div>
     </div>
   )

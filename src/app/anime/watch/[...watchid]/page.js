@@ -29,18 +29,18 @@ async function AnimeWatch({ params, searchParams }) {
       <div className=" flex-grow">
       <VideoPlayer epid={epid} episodeSource={episodeSource} provider={provider} epnum={epnum} data={data}  episodeData={episodeData}/>
       <PlayerEpisodeList data={data} episodeData={episodeData} onprovider={provider}/>
-      {data.status==='RELEASING' && 
+      {data?.status==='RELEASING' && 
       <NextAiringDate nextAiringEpisode={data.nextAiringEpisode}/>
       }
       </div>
       <div className="xl:max-w-[100%] my-5">
         <h2 className="px-[8px] lg:px-[2px] lg:text-[22px] text-[18px]">Related Anime</h2>
       <div className=" xl:max-h-[400px] xl:max-w-[380px] max-w-[1000px] xl:overflow-y-scroll xl:overflow-x-hidden overflow-x-scroll scrollbar-hide overflow-y-hidden">
-      <PlayerAnimeCard data={data.relations.edges}/>
+      <PlayerAnimeCard data={data?.relations?.edges}/>
       </div>
       <h2 className="px-[8px] lg:px-[2px] lg:text-[22px] text-[18px] mt-[30px]">Recommendations</h2>
       <div className=" xl:max-h-[100%] xl:max-w-[380px] max-w-[1000px] xl:overflow-y-scroll xl:overflow-x-hidden overflow-x-scroll scrollbar-hide overflow-y-hidden">
-      <PlayerAnimeCard data={data.relations.edges}/>
+      <PlayerAnimeCard data={data?.relations?.edges}/>
       </div>
       </div>
     </div>
