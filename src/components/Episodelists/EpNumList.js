@@ -4,7 +4,7 @@ import styles from '../../styles/Epimglist.module.css'
 
 function EpNumList({ data, epdata, defaultProvider, subtype }) {
     return (
-        <div className={styles.epnumlistconatiner}>
+        <div className={styles.epnumlistcontainer}>
             {epdata
                 .slice()
                 .map((episode) => (

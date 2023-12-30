@@ -66,11 +66,14 @@
 /* epnumlist */
 
 .epnumlistcontainer{
-    margin: 20px auto;
+    width: 100%;
+    overflow-x: hidden;
+    margin: 10px auto;
     display: grid;
     align-items: center;
     grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); 
     gap: 10px;
+    /* border: 1px solid white; */
 }
 
 .epdiv{
@@ -97,7 +100,7 @@
         max-height: 190px;
         overflow-y: scroll;
         overflow-x: hidden;
-        margin: 20px 2px;
+        margin: 8px 2px;
         grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); 
     }
 }
@@ -111,7 +114,7 @@
     flex-direction: column;
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height: 23rem;
+    max-height: 25rem;
 }
 
 .epimageconitem{
@@ -191,6 +194,9 @@
     }
     .epimgdescription{
         -webkit-line-clamp: 2;
+    }
+    .epimgcondiv{
+        max-height: 30rem;
     }
 }
 

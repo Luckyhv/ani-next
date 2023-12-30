@@ -32,10 +32,29 @@
     display: flex;
 }
 
-.epumlist, .epimagelist{
+.selects{
+    display: flex;
+}
+
+.toggleicons{
+    cursor: pointer;
+    display: none;
+}
+
+.epchangeicons{
+    display: flex;
+}
+
+.epnumlist, .epimagelist{
     max-width: 100%;
     max-height: 23rem;
     overflow-y: scroll;
+    display: flex;
+}
+
+
+.selectmobile{
+    display: none;
 }
 
 @media(max-width:1200px){
@@ -52,6 +71,34 @@
     .epdiv{
         width: 45px;
         margin: 3px;
+    }
+}
+
+@media(max-width:768px){
+    .toggleicons{
+        display: block;
+        margin: 0 6px;
+    }
+    .epright{
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    .epchangeicons{
+        margin: 3px 0;
+    }
+    .selects{
+        display: none;
+    }
+    .selectmobile{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 10px 5px 10px 4px;
+        transition: all .3s ease-in-out!important;
+    }
+    .epnumlist{
+        max-height: 12rem;
     }
 }
 
