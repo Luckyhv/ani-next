@@ -50,6 +50,13 @@
     display: block;
 }
 
+@media(min-width:1700px){
+    .epimgcontainer{
+        grid-template-columns: repeat(5, auto);
+    }
+}
+
+
 @media (max-width:1150px) {
     .epimgcontainer{
         grid-template-columns: repeat(3, auto);
@@ -90,11 +97,16 @@
     outline: none;
 }
 
+.epdiv:hover{
+    background-color: #41414a;
+}
+
 @media(max-width:900px){
     .epdiv{
         width: 45px;
         margin: 3px;
     }
+
     .epnumlistcontainer{
         gap: 6px;
         max-height: 190px;
@@ -114,7 +126,7 @@
     flex-direction: column;
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height: 25rem;
+    max-height: 40rem;
 }
 
 .epimageconitem{
@@ -182,6 +194,13 @@
     color: #ffffffb2;
 }
 
+@media(min-width:1400px){
+    .epimgcondiv{
+        max-height: 50rem;
+    }
+    
+}
+
 @media(max-width:1400px){
     .epimgright{
         max-width: 60%;
@@ -195,12 +214,13 @@
     .epimgdescription{
         -webkit-line-clamp: 2;
     }
-    .epimgcondiv{
-        max-height: 30rem;
-    }
+
 }
 
 @media(max-width:565px){
+    .epimgcondiv{
+        max-height: 30rem;
+    }
     .epcondiv{
         width: 190px;
         height: 110px;

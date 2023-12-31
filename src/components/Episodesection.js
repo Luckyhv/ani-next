@@ -313,21 +313,27 @@ function Episodesection({ data }) {
               </div>
             </div>
             )}
-      {eplisttype === 3 &&
-        <div className={styles.epnumlist}>
-        <EpNumList data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
-        </div>
-      }
-      {eplisttype === 2 &&
-        <div className={styles.epimgconist}>
-        <EpImgContent data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
-        </div>
-      }
-      {eplisttype === 1 &&
-        <div className={styles.epimagelist}>
-        <EpImageList data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
-        </div>
-      }
+     {loading && <p className="text-center my-4">Loading Episode Data</p>}
+      {refreshloading && <p className="text-center my-4">Refreshing Episode Data</p>}
+      {!loading && !refreshloading && (
+        <>
+          {eplisttype === 3 && (
+            <div className={styles.epnumlist}>
+              <EpNumList data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
+            </div>
+          )}
+          {eplisttype === 2 && (
+            <div className={styles.epimgconist}>
+              <EpImgContent data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
+            </div>
+          )}
+          {eplisttype === 1 && (
+            <div className={styles.epimagelist}>
+              <EpImageList data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
+            </div>
+          )}
+        </>
+      )}
       </div>
       );
 }
