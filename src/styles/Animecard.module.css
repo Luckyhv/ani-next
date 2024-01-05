@@ -1,7 +1,7 @@
 .animecard {
     display: flex;
     flex-direction: column;
-    max-width: 1300px;
+    /* max-width: 90%; */
     margin: 15px auto 20px auto;
     scroll-behavior: smooth;
 }

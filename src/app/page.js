@@ -12,9 +12,9 @@ async function Home() {
 
   return (
     <div>
-      <Navbarcomponent />
+      {/* <Navbarcomponent /> */}
       <Herosection data={herodata} />
-      <MotionDiv
+      {/* <MotionDiv
         initial={{ y: 20, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -29,7 +29,7 @@ async function Home() {
         viewport={{ once: true }}
       >
         <Animecard data={herodata} cardid="Trending Now" />
-      </MotionDiv>
+      </MotionDiv> */}
     </div>
   )
 }
