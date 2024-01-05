@@ -4,7 +4,7 @@ export const checkEnvironment = () => {
         ? "http://localhost:3000"
         // ? 'https://ani-next.vercel.app'
         // : "https://ani-next.vercel.app";
-        : "https://ani-next-git-beta-luckyhv.vercel.app"
+        : "https://ani-next-git-beta-luckyhv.vercel.app"  //beta
   
     return base_url;
   };
