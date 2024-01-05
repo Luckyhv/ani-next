@@ -3,7 +3,7 @@ import { trending,animeinfo } from "./anilistqueries";
 
 export const RecentEpisodes = async () => {
     try {
-      const res = await fetch(`https://consumet-anime-api.vercel.app/meta/anilist/recent-episodes`,{ next: { revalidate: 3600 }});
+      const res = await fetch(`https://consumet-anime-api.vercel.app/meta/anilist/recent-episodes`,{ next: { revalidate: 0 }});
       return res.json();
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -25,7 +25,7 @@ export const TrendingAnilist=async()=>{
                     perPage: 15,
                 },
             }),
-        },{ next: { revalidate: 3600 }});
+        },{ next: { revalidate: 0 }});
 
         const data = await response.json();
         return data.data.Page.media;
@@ -48,7 +48,7 @@ export const AnimeInfoAnilist=async(animeid)=>{
                     id: animeid,
                 },
             }),
-        },{ next: { revalidate: 3600 }});
+        },{ next: { revalidate: 0 }});
 
         const data = await response.json();
         return data.data.Media;

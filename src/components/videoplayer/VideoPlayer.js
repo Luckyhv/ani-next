@@ -98,7 +98,15 @@ useEffect(() => {
     }
 
     if (episodeSource && episodeSource.subtitles) {
-      setsubtitles(episodeSource.subtitles.filter((s)=>s.lang==='English'))
+      const reFormSubtitles = episodeSource?.subtitles?.map((i) => {
+        return {
+          src: i.url,
+          label: i.lang,
+          kind: i.lang === "Thumbnails" ? "thumbnails" : "subtitles",
+          ...(i.lang === "English" && { default: true }),
+        };
+      });
+      setsubtitles(reFormSubtitles.filter((s)=>s.kind!=='English'))
       setthumbnails(episodeSource.subtitles.filter((s)=>s.lang==='Thumbnails'))
     }
 
@@ -141,7 +149,7 @@ useEffect(() => {
             text: '',
           });
         }
-    console.log(skiptime)
+    // console.log(skiptime)
         setSkipTimes(skiptime);
         setLoading(false);
       } catch (error) {
@@ -183,7 +191,7 @@ useEffect(() => {
       <div className='aspect-video max-w-[1000px] max-h-[600px]'>
         {!loading ? (
           <div className='h-full w-full mb-2'>
-            <VidstackPlayer sources={url} skiptimes={skiptimes} epid={epid} getNextEpisode={getNextEpisode}
+            <VidstackPlayer sources={url} skiptimes={skiptimes} epid={epid} getNextEpisode={getNextEpisode} provider={provider} subtype={subtype}
              autoplay={autoplay} currentep={currentep} data={data} thumbnails={thumbnails} subtitles={subtitles} />
           </div>
         ) : (
